@@ -32,6 +32,7 @@ formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(messag
 handler.setFormatter(formatter)
 # add the handlers to the logger
 logger.addHandler(handler)
+picsDir = '/home/pi/mycotronics/pictures'
 
 # <--- Firebase settings --->
 db_config = {
@@ -44,7 +45,7 @@ db_config = {
 
 
 def check_internet():
-    hostname = "google.com"
+    hostname = "google.com" #example
     response = os.system("ping -c 1 " + hostname)
 
     # and then check the response...
@@ -113,7 +114,6 @@ def grbl_command(command, flag):
     if flag == 'run':
         if len(grblFedback.split(',')) > 2:
             grblMSG = grblFedback.split(',')[1]
-            print('GRBL: ', grblMSG)
             return(grblMSG)
     elif flag == 'check':
         status = grblFedback[:-2]
@@ -167,7 +167,7 @@ while True:
         h = int(picSIZE[1])
 
         # Read from sensors and push to DB
-        ser0.flushInput() # Flush startup text in serial input
+        ser0.flushInput()
         read_sensors()
         if dataDict['Temperature'] == 'Fail' or dataDict['Humidity'] == 'Fail':
             logger.warning('Temperature/Humidity sensor disconnected!')
@@ -204,6 +204,10 @@ while True:
 
         # Close camera
         startCAM.close()
+        # Delete pictures
+        filelist = [ f for f in os.listdir(picsDir) if f.endswith(".jpg") ]
+        for f in filelist:
+            os.remove(os.path.join(picsDir, f))
         # Rotate motor back and go to sleep mode
-        ser1.write(b'G1 X0 F25\n')
+        ser1.write(b'G1 X0 F50\n')
         time.sleep(delayTime)
