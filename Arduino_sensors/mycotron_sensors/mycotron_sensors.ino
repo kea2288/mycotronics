@@ -22,6 +22,7 @@ int val = 0;
 
 void setup() 
 {
+    // Initialize serial
 	Serial.begin(9600);
     dht.begin();
 }
@@ -29,12 +30,10 @@ void setup()
 void loop() 
 {
 	val = analogRead(CO2PIN);
-    //float voltage = val * (5.0 / 1023.0);
 	Serial.print("CO2: ");
     Serial.println(val);
-    //Serial.println(voltage);
 
-    // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
+    // Read temperature and humidity
     float h = dht.readHumidity();
     float t = dht.readTemperature();
 

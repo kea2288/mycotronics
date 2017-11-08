@@ -27,11 +27,6 @@
 
 //Lead Developer [_2009 - 2011_]: Simen Svale Skogsrud (Norway). aka The Originator/Creator/Pioneer/Father of Grbl.
 
-
-
-
-
-
 #include "system.h"
 #include "nuts_bolts.h"
 #include "eeprom.h"
@@ -54,8 +49,4 @@
 #include "probe.h"
 #include "print.h"
 #include "coolant_control.h"
-
-
-
-
 

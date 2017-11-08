@@ -44,7 +44,7 @@ db_config = {
 
 
 def check_internet():
-    hostname = "google.com" #example
+    hostname = "google.com"
     response = os.system("ping -c 1 " + hostname)
 
     # and then check the response...
@@ -72,7 +72,6 @@ def check_grbl():
     time.sleep(2)   # Wait for grbl to initialize
     ser1.flushInput() # Flush startup text in serial input
     status = grbl_command('G0', 'check')
-    print('Status: ', status)
     if status == 'ok':
         logger.info('GRBL connection succeed.')
     else:
@@ -90,11 +89,9 @@ def check_camera():
 
 def push_to_db(id, device, value):
     data = {"timestamp": {".sv": "timestamp"}, "value": value}
-    # #print(read_serial.decode('utf-8', 'ignore'))
 
     # Write to DB CO2 value
     results = db.child("data/{0}/{1}.json?print=silent".format(id, device)).push(data)
-    # #results = db.child("rpi1").push(data, user['idToken']) # push with authentication
 
 
 def read_sensors():
@@ -160,7 +157,6 @@ while True:
         logger.warning('Firebase connection fail!')
 
     while conn:
-        print('While loop:')
         # Read config from DB
         results = db.child('configs/{0}'.format(id)).get().val()
 
@@ -171,8 +167,8 @@ while True:
         h = int(picSIZE[1])
 
         # Read from sensors and push to DB
+        ser0.flushInput() # Flush startup text in serial input
         read_sensors()
-        print(dataDict)
         if dataDict['Temperature'] == 'Fail' or dataDict['Humidity'] == 'Fail':
             logger.warning('Temperature/Humidity sensor disconnected!')
         else:
