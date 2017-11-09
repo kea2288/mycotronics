@@ -7,6 +7,7 @@ import serial
 import pyrebase
 from picamera import PiCamera
 import config
+from fconfig import *
 
 # <--- Device settings --->
 conn = False
@@ -33,15 +34,6 @@ handler.setFormatter(formatter)
 # add the handlers to the logger
 logger.addHandler(handler)
 picsDir = '/home/pi/mycotronics/pictures'
-
-# <--- Firebase settings --->
-db_config = {
-    "apiKey": "AIzaSyBNM8ll5KyDln9H5z7NCBPT71DgbLHuMi4",
-    "authDomain": "stanford-boxes.firebaseapp.com",
-    "databaseURL": "https://stanford-boxes.firebaseio.com",
-    "storageBucket": "stanford-boxes.appspot.com",
-    "serviceAccount": "/home/pi/mycotronics/cloud/stanford-boxes-firebase-adminsdk-3urx2-a4dafa174c.json"
-}
 
 
 def check_internet():
